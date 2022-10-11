@@ -62,16 +62,15 @@ class TrajectoryTracker:
         x_d, xd_d, xdd_d, y_d, yd_d, ydd_d = self.get_desired_state(t)
 
         ########## Code starts here ##########
+        if self.V_prev < V_PREV_THRES:
+            self.V_prev = np.sqrt(xd_d ** 2 + yd_d ** 2)
+
         xd = self.V_prev * np.cos(th)
         yd = self.V_prev * np.sin(th)
         u1 = xdd_d + self.kpx * (x_d - x) + self.kdx * (xd_d - xd)
         u2 = ydd_d + self.kpy * (y_d - y) + self.kdy * (yd_d - yd)
 
-        if np.abs(self.V_prev) < V_PREV_THRES:
-            if self.V_prev < 0:
-                self.V_prev = np.sqrt(xd_d**2 + yd_d**2) * -1
-            else:
-                self.V_prev = np.sqrt(xd_d ** 2 + yd_d ** 2)
+
 
         Vd = u1 * np.cos(th) + (u2 * np.sin(th))/self.V_prev
         V = self.V_prev + Vd * dt
