@@ -88,7 +88,7 @@ def compute_controls(traj: np.ndarray) -> T.Tuple[np.ndarray, np.ndarray]:
     yddot = traj[:,6]
     theta = traj[:,2]
     om = np.zeros(len(theta))
-    V = traj[:, 3] / numpy.cos(theta)
+    V = traj[:, 3] / (numpy.cos(theta)+ 0.01)
 
     for i in range(len(theta)):
         a = numpy.cos(theta[i])
