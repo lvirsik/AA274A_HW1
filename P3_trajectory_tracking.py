@@ -67,11 +67,9 @@ class TrajectoryTracker:
         u1 = xdd_d + self.kpx * (x_d - x) + self.kdx * (xd_d - xd)
         u2 = ydd_d + self.kpy * (y_d - y) + self.kdy * (yd_d - yd)
         if self.V_prev < V_PREV_THRES:
-            V = np.sqrt(xd_d**2 + yd_d**2)
-        else:
-            Vd = u1 * np.cos(th) + u2 * np.sin(th) / self.V_prev
-            V = self.V_prev + Vd * dt
-
+            self.V_prev = np.sqrt(xd_d**2 + yd_d**2)
+        Vd = u1 * np.cos(th) + (u2 * np.sin(th))/self.V_prev
+        V = self.V_prev + Vd * dt
         om = -u1*np.sin(th) + u2*np.cos(th)/V
         ########## Code ends here ##########
 
