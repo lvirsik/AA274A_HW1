@@ -65,11 +65,7 @@ def compute_traj(coeffs: np.ndarray, tf: float, N: int) -> T.Tuple[np.ndarray, n
         traj[i][1] = coeffs[4] + coeffs[5] * t[i] + coeffs[6] * (t[i] ** 2) + coeffs[7] * (t[i] ** 3) #y
     traj[:,3] = numpy.gradient(traj[:,0])/numpy.gradient(t)
     traj[:,4] = numpy.gradient(traj[:,1])/numpy.gradient(t)
-    for i in range(N): #Deals with division in the case of xdot being equal to zero
-        if traj[i,3] == 0:
-            traj[i,2] = 0
-        else:
-            traj[i,2] = numpy.arctan(traj[i,4]/traj[i,3])
+    traj[:,2] = np.arctan2(traj[:,4],traj[:,3])
     traj[:,5] = numpy.gradient(traj[:,3])/numpy.gradient(t)
     traj[:,6] = numpy.gradient(traj[:,4])/numpy.gradient(t)
     ########## Code ends here ##########
@@ -88,7 +84,7 @@ def compute_controls(traj: np.ndarray) -> T.Tuple[np.ndarray, np.ndarray]:
     yddot = traj[:,6]
     theta = traj[:,2]
     om = np.zeros(len(theta))
-    V = traj[:, 3] / (numpy.cos(theta)+ 0.01)
+    V = traj[:, 3] / numpy.cos(theta)
 
     for i in range(len(theta)):
         a = numpy.cos(theta[i])
