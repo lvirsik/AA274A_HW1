@@ -63,11 +63,11 @@ def compute_traj(coeffs: np.ndarray, tf: float, N: int) -> T.Tuple[np.ndarray, n
     for i in range(N):
         traj[i][0] = coeffs[0] + coeffs[1] * t[i] + coeffs[2] * (t[i] ** 2) + coeffs[3] * (t[i] ** 3) #x
         traj[i][1] = coeffs[4] + coeffs[5] * t[i] + coeffs[6] * (t[i] ** 2) + coeffs[7] * (t[i] ** 3) #y
-    traj[:,3] = numpy.gradient(traj[:,0])/numpy.gradient(t)
-    traj[:,4] = numpy.gradient(traj[:,1])/numpy.gradient(t)
+    traj[:,3] = numpy.gradient(traj[:,0], dt)
+    traj[:,4] = numpy.gradient(traj[:,1], dt)
     traj[:,2] = np.arctan2(traj[:,4],traj[:,3])
-    traj[:,5] = numpy.gradient(traj[:,3])/numpy.gradient(t)
-    traj[:,6] = numpy.gradient(traj[:,4])/numpy.gradient(t)
+    traj[:,5] = numpy.gradient(traj[:,3], dt)
+    traj[:,6] = numpy.gradient(traj[:,4], dt)
     ########## Code ends here ##########
     return t, traj
 
@@ -84,7 +84,7 @@ def compute_controls(traj: np.ndarray) -> T.Tuple[np.ndarray, np.ndarray]:
     yddot = traj[:,6]
     theta = traj[:,2]
     om = np.zeros(len(theta))
-    V = traj[:, 3] / numpy.cos(theta)
+    V = traj[:, 4] / numpy.sin(theta)
 
     for i in range(len(theta)):
         a = numpy.cos(theta[i])
