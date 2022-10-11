@@ -60,6 +60,7 @@ def compute_traj(coeffs: np.ndarray, tf: float, N: int) -> T.Tuple[np.ndarray, n
     t = np.linspace(0, tf, N) # generate evenly spaced points from 0 to tf
     traj = np.zeros((N, 7))
     ########## Code starts here ##########
+    dt = tf/N
     for i in range(N):
         traj[i][0] = coeffs[0] + coeffs[1] * t[i] + coeffs[2] * (t[i] ** 2) + coeffs[3] * (t[i] ** 3) #x
         traj[i][1] = coeffs[4] + coeffs[5] * t[i] + coeffs[6] * (t[i] ** 2) + coeffs[7] * (t[i] ** 3) #y
