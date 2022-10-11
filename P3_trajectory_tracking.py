@@ -70,7 +70,7 @@ class TrajectoryTracker:
             self.V_prev = np.sqrt(xd_d**2 + yd_d**2)
         Vd = u1 * np.cos(th) + (u2 * np.sin(th))/self.V_prev
         V = self.V_prev + Vd * dt
-        om = -u1*np.sin(th) + u2*np.cos(th)/V
+        om = -u1*np.sin(th) + u2*np.cos(th)/self.V_prev
         ########## Code ends here ##########
 
         # apply control limits
