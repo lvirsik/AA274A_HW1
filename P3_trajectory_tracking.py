@@ -63,18 +63,20 @@ class TrajectoryTracker:
 
         ########## Code starts here ##########
         if self.V_prev < V_PREV_THRES:
-            self.V_prev = np.sqrt(xd_d ** 2 + yd_d ** 2)
+            Vp = np.sqrt(xd_d ** 2 + yd_d ** 2)
+        else:
+            Vp = self.V_prev
 
-        xd = self.V_prev * np.cos(th)
-        yd = self.V_prev * np.sin(th)
+        xd = Vp * np.cos(th)
+        yd = Vp * np.sin(th)
         u1 = xdd_d + self.kpx * (x_d - x) + self.kdx * (xd_d - xd)
         u2 = ydd_d + self.kpy * (y_d - y) + self.kdy * (yd_d - yd)
 
 
 
-        Vd = u1 * np.cos(th) + (u2 * np.sin(th))/self.V_prev
-        V = self.V_prev + Vd * dt
-        om = -u1*np.sin(th) + u2*np.cos(th)/self.V_prev
+        Vd = u1 * np.cos(th) + (u2 * np.sin(th))/Vp
+        V = Vp + (Vd * dt)
+        om = -u1*np.sin(th) + (u2*np.cos(th))/Vp
         ########## Code ends here ##########
 
         # apply control limits
