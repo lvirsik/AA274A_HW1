@@ -69,14 +69,14 @@ class TrajectoryTracker:
 
         xd = Vp * np.cos(th)
         yd = Vp * np.sin(th)
-        u1 = xdd_d + self.kpx * (x_d - x) + self.kdx * (xd_d - xd)
-        u2 = ydd_d + self.kpy * (y_d - y) + self.kdy * (yd_d - yd)
+        u1 = xdd_d + (self.kpx * (x_d - x)) + (self.kdx * (xd_d - xd))
+        u2 = ydd_d + (self.kpy * (y_d - y)) + (self.kdy * (yd_d - yd))
 
 
 
-        Vd = u1 * np.cos(th) + (u2 * np.sin(th))/Vp
+        Vd = u1 * np.cos(th) + (u2 * np.sin(th))
         V = Vp + (Vd * dt)
-        om = -u1*np.sin(th) + (u2*np.cos(th))/Vp
+        om = (-u1*np.sin(th))/Vp + (u2*np.cos(th))/Vp
         ########## Code ends here ##########
 
         # apply control limits
