@@ -94,7 +94,7 @@ def compute_controls(traj: np.ndarray) -> T.Tuple[np.ndarray, np.ndarray]:
         d = V[i] * numpy.cos(theta[i])
         J = np.array([[a,b], [c,d]])
         Jinv = np.linalg.inv(J)
-        om[i] = xddot[i]*Jinv[0][1] + yddot[i]*Jinv[1][1]
+        om[i] = xddot[i]*Jinv[1][0] + yddot[i]*Jinv[1][1]
     ########## Code ends here ##########
 
     return V, om
